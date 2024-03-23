@@ -71,9 +71,8 @@
     <h1>ההאקרים של הטכנודע</h1>
     <h2>אספו מידע על הקורבן ונסו לגלות את הסיסמא שלו</h2>
     <form id="combinationForm">
-      <input type="text" id="fullName" placeholder="שם מלא" required><br>
+      <input type="text" id="fullName" placeholder="שם פרטי" required><br>
       <input type="text" id="dob" placeholder="יום וחודש לידה, לדוגמא: 1203" required><br>
-
       <input type="text" id="state" placeholder="מדינה" required><br>
       <button type="button" onclick="generateCombinations()">שלח</button>
     </form>
@@ -90,7 +89,7 @@
       const state = document.getElementById('state').value;
 
 
-      const elements = [fullName, dob, state];
+      const elements = [fullName, dobElement, state];
       let combinations = new Set();
 
       // Trying different combinations to avoid duplicates
