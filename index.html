@@ -82,37 +82,37 @@
 
 
   <script>
-    function generateCombinations() {
-      // Ensure elements are correctly targeted by their IDs
-      const fullName = document.getElementById('fullName').value;
-      const dobElement = document.getElementById('dob');
-      const state = document.getElementById('state').value;
+function generateCombinations() {
+  // Ensure elements are correctly targeted by their IDs
+  const fullName = document.getElementById('fullName').value;
+  const dob = document.getElementById('dob').value; // Correctly fetching the value
+  const state = document.getElementById('state').value;
 
+  const elements = [fullName, dob, state]; // Updated array
+  let combinations = new Set();
 
-      const elements = [fullName, dobElement, state];
-      let combinations = new Set();
-
-      // Trying different combinations to avoid duplicates
-      for (let i = 0; i < 10000 && combinations.size < 500; i++) {
-        let comboParts = [];
-        for (let part of elements) {
-          if (Math.random() > 0.5) {
-            comboParts.push(part);
-          }
-        }
-        let combo = comboParts.join('');
-        if (combo && !combinations.has(combo)) {
-          combinations.add(combo);
-        }
+  // Trying different combinations to avoid duplicates
+  for (let i = 0; i < 10000 && combinations.size < 500; i++) {
+    let comboParts = [];
+    for (let part of elements) {
+      if (Math.random() > 0.5) {
+        comboParts.push(part);
       }
-
-      // Displaying combinations
-      const displayDiv = document.getElementById('combinations');
-      displayDiv.innerHTML = '<h2>Combinations:</h2>';
-      combinations.forEach(combo => {
-        displayDiv.innerHTML += `<p>${combo}</p>`;
-      });
     }
+    let combo = comboParts.join('');
+    if (combo && !combinations.has(combo)) {
+      combinations.add(combo);
+    }
+  }
+
+  // Displaying combinations
+  const displayDiv = document.getElementById('combinations');
+  displayDiv.innerHTML = '<h2>Combinations:</h2>';
+  combinations.forEach(combo => {
+    displayDiv.innerHTML += `<p>${combo}</p>`;
+  });
+}
+
   </script>
 
 </body>
