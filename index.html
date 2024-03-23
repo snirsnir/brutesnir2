@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Combination Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #6441a5, #2a0845);
+      color: white;
+      text-align: center;
+      padding: 50px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+    }
+
+    #logo {
+      float: right;
+      margin-left: 10px;
+      height: 60px;
+    }
+
+    h1 {
+      clear: both;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      text-align: right;
+      /* Align text to the right */
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #6441a5;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #502c94;
+    }
+
+    #combinations {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <img src="https://www.technoda.org.il/warehouse/dynamic/260476.svg" alt="Your Logo" id="logo">
+    <h1>ההאקרים של הטכנודע</h1>
+    <h2>אספו מידע על הקורבן ונסו לגלות את הסיסמא שלו</h2>
+    <form id="combinationForm">
+      <input type="text" id="fullName" placeholder="שם מלא" required><br>
+      <input type="text" id="dob" placeholder="יום וחודש לידה, לדוגמא: 1203" required><br>
+
+      <input type="text" id="state" placeholder="מדינה" required><br>
+      <button type="button" onclick="generateCombinations()">שלח</button>
+    </form>
+
+    <div id="combinations"></div>
+  </div>
+
+
+  <script>
+    function generateCombinations() {
+      // Ensure elements are correctly targeted by their IDs
+      const fullName = document.getElementById('fullName').value;
+      const dobElement = document.getElementById('dob');
+      const state = document.getElementById('state').value;
+
+
+      const elements = [fullName, dob, state];
+      let combinations = new Set();
+
+      // Trying different combinations to avoid duplicates
+      for (let i = 0; i < 10000 && combinations.size < 500; i++) {
+        let comboParts = [];
+        for (let part of elements) {
+          if (Math.random() > 0.5) {
+            comboParts.push(part);
+          }
+        }
+        let combo = comboParts.join('');
+        if (combo && !combinations.has(combo)) {
+          combinations.add(combo);
+        }
+      }
+
+      // Displaying combinations
+      const displayDiv = document.getElementById('combinations');
+      displayDiv.innerHTML = '<h2>Combinations:</h2>';
+      combinations.forEach(combo => {
+        displayDiv.innerHTML += `<p>${combo}</p>`;
+      });
+    }
+  </script>
+
+</body>
+
+</html>
