@@ -83,27 +83,54 @@
 
   <script>
 function generateCombinations() {
-  // Ensure elements are correctly targeted by their IDs
   const fullName = document.getElementById('fullName').value;
-  const dob = document.getElementById('dob').value; // Correctly fetching the value
+  const dob = document.getElementById('dob').value;
   const state = document.getElementById('state').value;
 
-  const elements = [fullName, dob, state]; // Updated array
+  const elements = [fullName, dob, state].filter(Boolean); // Filter out empty values
   let combinations = new Set();
 
-  // Trying different combinations to avoid duplicates
-  for (let i = 0; i < 10000 && combinations.size < 500; i++) {
-    let comboParts = [];
-    for (let part of elements) {
-      if (Math.random() > 0.5) {
-        comboParts.push(part);
+  // Generate all subsets (the power set minus the empty set)
+  const generateSubsets = (elements) => {
+    const subsets = [[]];
+    for (let i = 0; i < elements.length; i++) {
+      const currentElement = elements[i];
+      const len = subsets.length;
+      for (let j = 0; j < len; j++) {
+        const currentSubset = subsets[j];
+        subsets.push(currentSubset.concat(currentElement));
       }
     }
-    let combo = comboParts.join('');
-    if (combo && !combinations.has(combo)) {
-      combinations.add(combo);
-    }
-  }
+    return subsets.slice(1); // Remove the empty set
+  };
+
+  const subsets = generateSubsets(elements);
+
+  // Helper function to permute subsets
+  const permute = (arr) => {
+    const result = [];
+    const permuteArray = (arr, m = []) => {
+      if (arr.length === 0) {
+        result.push(m);
+      } else {
+        for (let i = 0; i < arr.length; i++) {
+          let curr = arr.slice();
+          let next = curr.splice(i, 1);
+          permuteArray(curr.slice(), m.concat(next));
+        }
+      }
+    };
+    permuteArray(arr);
+    return result;
+  };
+
+  // Generate all permutations of each subset and add them to the combinations set
+  subsets.forEach((subset) => {
+    const perms = permute(subset);
+    perms.forEach((perm) => {
+      combinations.add(perm.join(''));
+    });
+  });
 
   // Displaying combinations
   const displayDiv = document.getElementById('combinations');
@@ -114,6 +141,7 @@ function generateCombinations() {
 }
 
   </script>
+  
 
 </body>
 
