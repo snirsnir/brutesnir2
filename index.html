@@ -59,6 +59,7 @@
     }
 
     #combinations {
+        direction: rtl;
       margin-top: 20px;
     }
   </style>
@@ -87,31 +88,14 @@ function generateCombinations() {
   const dob = document.getElementById('dob').value;
   const state = document.getElementById('state').value;
 
-  const elements = [fullName, dob, state].filter(Boolean); // Filter out empty values
-  let combinations = new Set();
-
-  // Generate all subsets (the power set minus the empty set)
-  const generateSubsets = (elements) => {
-    const subsets = [[]];
-    for (let i = 0; i < elements.length; i++) {
-      const currentElement = elements[i];
-      const len = subsets.length;
-      for (let j = 0; j < len; j++) {
-        const currentSubset = subsets[j];
-        subsets.push(currentSubset.concat(currentElement));
-      }
-    }
-    return subsets.slice(1); // Remove the empty set
-  };
-
-  const subsets = generateSubsets(elements);
+  const elements = [fullName, dob, state]; // Assuming all fields are required and filled
 
   // Helper function to permute subsets
   const permute = (arr) => {
     const result = [];
     const permuteArray = (arr, m = []) => {
       if (arr.length === 0) {
-        result.push(m);
+        result.push(m.join('')); // Join elements directly here
       } else {
         for (let i = 0; i < arr.length; i++) {
           let curr = arr.slice();
@@ -124,21 +108,17 @@ function generateCombinations() {
     return result;
   };
 
-  // Generate all permutations of each subset and add them to the combinations set
-  subsets.forEach((subset) => {
-    const perms = permute(subset);
-    perms.forEach((perm) => {
-      combinations.add(perm.join(''));
-    });
-  });
+  // Generate all permutations of the full input array
+  const permutations = permute(elements);
 
   // Displaying combinations
   const displayDiv = document.getElementById('combinations');
   displayDiv.innerHTML = '<h2>Combinations:</h2>';
-  combinations.forEach(combo => {
+  permutations.forEach(combo => {
     displayDiv.innerHTML += `<p>${combo}</p>`;
   });
 }
+
 
   </script>
   
